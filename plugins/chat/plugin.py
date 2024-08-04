@@ -63,7 +63,7 @@ async def construct_message(messages, bot_self, system_prompt):
         # wont send attatchements because... ya
         if message.attachments:
             attachment_desc = ', '.join(att.filename for att in message.attachments)
-            content += f'\nAttachment(s): {attachment_desc}'
+            content = f'{content}\nAttachment(s): {attachment_desc}' if content else f'Attachment(s): {attachment_desc}'
 
         # set role
         role = 'assistant' if message.author.id == bot_self.id else 'user'
