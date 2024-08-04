@@ -20,6 +20,11 @@ DISCORD_BOT_TOKEN = pur token here
 > [!important]
 > **DO NOT** put quotes around them "like this"
 
+and then you can run it with
+```bash
+python main.py
+```
+
 # configuration
 open the `config.json` file in `chat/plugins/` in any text editor and configure stuff there :P
 ```json
