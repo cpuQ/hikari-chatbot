@@ -9,7 +9,7 @@ cd hikari-chatbot
 python -m pip install -r requirements.txt
 ```
 > [!note]
-> i only tested it with python 3.11 lol
+> i only tested it with python 3.11 on windows lol
 
 # setup
 open the `.env` file and put in your openai api key and discord bot token
