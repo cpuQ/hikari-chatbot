@@ -2,9 +2,9 @@
   "openai": {
     "base_url": "",
     "model": "gpt-4o-mini",
-    "temperature": 1.18,
-    "presence_penalty": 1.05,
-    "frequency_penalty": 1.02,
+    "temperature": 1.0,
+    "presence_penalty": 1.0,
+    "frequency_penalty": 1.0,
     "top_p": 0.5,
     "max_tokens": 1024
   },
