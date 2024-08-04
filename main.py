@@ -10,7 +10,7 @@ plugins_dir = os.path.join(script_dir, 'plugins')
 
 # hikari bot
 intents = hikari.Intents.ALL
-token = os.environ['DISCORD_BOT_TOKEN']
+token = os.getenv('DISCORD_BOT_TOKEN')
 bot = lightbulb.BotApp(intents=intents, token=token)
 
 # load plugins

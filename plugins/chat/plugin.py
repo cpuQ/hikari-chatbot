@@ -7,7 +7,7 @@ import time
 # init stuffs
 logger = colorlog.getLogger()
 config_dir = os.path.dirname(os.path.realpath(__file__))
-api_key = os.environ['OPENAI_API_KEY']
+api_key = os.getenv('OPENAI_API_KEY')
 
 # plugin thing
 plugin = lightbulb.Plugin('chat')
@@ -22,10 +22,14 @@ async def on_message(event: hikari.MessageCreateEvent):
     # if guild channel is not in list but let dms through
     if event.channel_id not in config['channels'] and event.message.guild_id is not None:
         return
+    
+    # ignore bot messages
+    if event.author.is_bot:
+        return
 
     # this is the actual code to gather information, process the system prompt, and send the request to openai
     async with event.app.rest.trigger_typing(event.channel_id):
-        
+
         # bot self object
         bot_self = await event.app.rest.fetch_my_user()
 
@@ -77,25 +81,21 @@ async def send_request(api_key, base_url, model, temperature, presence_penalty, 
     client = openai.OpenAI(base_url=base_url, api_key=api_key) if base_url else openai.OpenAI(api_key=api_key)
     response = client.chat.completions.create(
         model = model,
-        temperature=temperature,
-        presence_penalty=presence_penalty,
-        frequency_penalty=frequency_penalty,
-        top_p=top_p,
-        max_tokens=max_tokens,
+        temperature = temperature,
+        presence_penalty = presence_penalty,
+        frequency_penalty = frequency_penalty,
+        top_p = top_p,
+        max_tokens = max_tokens,
         messages = messages
     )
 
     # timer end
     elapsed_time = time.time() - start_time
     logger.info(f'finished in {elapsed_time:.2f} seconds')
-    if base_url:
-        file_name = response.model.split("\\")[-1]
-        model_name = file_name.split(".")[0]
-        logger.info(f'model: {model_name}')
     logger.info(f'temperature: {temperature}')
     logger.info(f'fingerprint: {response.system_fingerprint}')
     logger.warning(f'prompt: {response.usage.prompt_tokens} tokens, completion: {response.usage.completion_tokens} tokens')
-    return response
+    return response.choices[0].message.content
 
 # load configs
 def read_config(config_dir):
@@ -110,7 +110,7 @@ def read_config(config_dir):
 
     # return all of it XD
     return {
-        'base_url': config['openai']['model'],
+        'base_url': config['openai']['base_url'],
         'model': config['openai']['model'],
         'temperature': config['openai']['temperature'],
         'presence_penalty': config['openai']['presence_penalty'],
