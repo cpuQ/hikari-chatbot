@@ -1,0 +1,15 @@
+{
+  "openai": {
+    "base_url": "",
+    "model": "gpt-4o-mini",
+    "temperature": 1.18,
+    "presence_penalty": 1.05,
+    "frequency_penalty": 1.02,
+    "top_p": 0.5,
+    "max_tokens": 1024
+  },
+  "bot": {
+    "max_chat_history": 21,
+    "channels": []
+  }
+}
